@@ -12,7 +12,7 @@
 // The host will NOT see this list during the game.
 
 const WORDS = [
-  ['CUSTOMER', 'Someone who buys a product or service'],
+  ['DVILETAA', 'To confirm or verify that something is true or correct'],
   ['TEAMWORK', 'People cooperating toward a shared goal'],
   ['COMMUNICATION', 'Sharing information clearly'],
   ['ESCALATION', 'Moving an issue to a higher level for help'],
