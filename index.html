@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Unscramble It!</title>
+<style>body{font-family:system-ui;margin:0;background:linear-gradient(135deg,#fff1f2,#eef2ff);color:#172033}.wrap{max-width:760px;margin:auto;padding:28px}.card{background:white;border-radius:24px;padding:28px;box-shadow:0 12px 40px #0001;margin:18px 0}.btn{border:0;border-radius:14px;padding:13px 18px;font-weight:700;cursor:pointer;background:#4f46e5;color:white}.btn.alt{background:#e5e7eb;color:#111827}.input{width:100%;box-sizing:border-box;padding:14px;border:2px solid #e5e7eb;border-radius:14px;margin:8px 0 14px;font-size:16px}.hidden{display:none}.scramble{text-align:center;font-size:42px;font-weight:900;letter-spacing:7px;margin:28px 0}.hint{text-align:center;font-size:18px}.pill{padding:6px 10px;border-radius:99px;background:#eef2ff;font-weight:800}.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1}</style>
+</head>
+<body><div class="wrap"><h1>🧩 Unscramble It!</h1><p>Multiplayer meeting icebreaker</p>
+<div id="home" class="card"><button class="btn" onclick="host()">Host a Game</button> <button class="btn alt" onclick="join()">Join a Game</button></div>
+<div id="panel" class="card hidden"></div></div>
+<script>
+const SUPABASE_URL='https://yndwherreppivfoaztyw.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='PASTE_SUPABASE_PUBLISHABLE_KEY_HERE';
+const words=[['CUSTOMER','Someone who buys a product or service'],['TEAMWORK','People cooperating toward a shared goal'],['COMMUNICATION','Sharing information clearly'],['ESCALATION','Moving an issue to a higher level for help'],['FEEDBACK','Comments that help improve something'],['CAMPAIGN','A planned series of marketing activities'],['SENTIMENT','The feeling or attitude expressed in a comment'],['RESOLUTION','The solution to a problem'],['VACATION','Time away from work'],['CHOCOLATE','A sweet treat made from cocoa'],['KARAOKE','Singing along to recorded music'],['SUNSHINE','Light from the sun']];
+function host(){panel.classList.remove('hidden');panel.innerHTML='<h2>🎤 Host a Game</h2><input id="hn" class="input" placeholder="Your name"><button class="btn" onclick="make()">Create Game</button>'}
+function join(){panel.classList.remove('hidden');panel.innerHTML='<h2>👥 Join a Game</h2><input id="gc" class="input" placeholder="Game code"><input id="pn" class="input" placeholder="Your name"><button class="btn" onclick="demoJoin()">Join Game</button>'}
+function make(){const c=Math.random().toString(36).slice(2,8).toUpperCase();panel.innerHTML='<h2>🎮 Game Created!</h2><p>Share this code:</p><div class="scramble">'+c+'</div><p>Players can join with this code once the live database connection is enabled.</p><button class="btn" onclick="demoRound()">Start Demo Round</button>'}
+function demoJoin(){panel.innerHTML='<h2>Waiting for Host…</h2><p>Game code: <span class="pill">'+document.getElementById('gc').value.toUpperCase()+'</span></p><p>Once the host starts, the scrambled word will appear here.</p>'}
+function demoRound(){const x=words[Math.floor(Math.random()*words.length)];const s=x[0].split('').sort(()=>Math.random()-.5).join('');panel.innerHTML='<h2>Round 1</h2><div class="scramble">'+s+'</div><div class="hint">💡 '+x[1]+'</div><input class="input" placeholder="Your answer"><button class="btn">Submit Answer</button>'}
+</script></body></html>
