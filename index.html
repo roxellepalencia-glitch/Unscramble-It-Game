@@ -39,7 +39,12 @@ window.WORDS = [
   ['FAMILIAR', 'Known well from previous experience or contact'],
   ['VALUABLE', 'Worth a lot of money or very important and useful'],
   ['CONTINUE', 'To keep happening or keep doing something'],
-  ['PROCLAIM', 'To announce or declare something publicly and forcefully']
+  ['PROCLAIM', 'To announce or declare something publicly and forcefully'],
+  ['ACCOUNTABILITY', 'Taking responsibility for your actions and results'],
+  ['PRIORITIZE', 'To decide what needs attention first'],
+  ['COLLABORATION', 'Working together to achieve a shared goal'],
+  ['PRODUCTIVITY', 'How effectively work and tasks are completed'],
+  ['CUSTOMER', 'A person or business that receives a product or service']
 ];
 </script>
 <script>
@@ -105,7 +110,7 @@ async function joinGame(){
  if(error)return alert('Game not found.');
  if(r.status!=='lobby')return alert('This game has already started.');
  let {count}=await db.from('players').select('*',{count:'exact',head:true}).eq('room_id',r.id);
- if((count||0)>=15)return alert('This game is full (15 players maximum).');
+ if((count||0)>=20)return alert('This game is full (20 players maximum).');
  let {data:p,error:e}=await db.from('players').insert({room_id:r.id,name}).select().single();
  if(e)return alert(e.message);
  room=r;me=p;await load();subscribe();renderPlayerWaiting()
@@ -124,7 +129,7 @@ async function nextQuestion(){if(!isHost)return;if(timer)clearInterval(timer);if
 function togglePause(){pausedBeforeNext=!!$('pauseNext')?.checked;let note=$('pauseNote');if(note)note.textContent='⏸️ Next question is always manual — the host controls when to continue.'}
 async function endGame(){if(timer)clearInterval(timer);await db.from('game_rooms').update({status:'finished'}).eq('id',room.id)}
 async function renderHostLobby(){if(playerRefreshTimer)clearInterval(playerRefreshTimer);$('app').innerHTML='<h2>🎮 Game Lobby</h2><p>Share this code with everyone:</p><div class="code">'+room.code+'</div><p class="muted">Players can join from the same website using this code.</p><div id="players"></div><button id="startBtn" type="button" class="btn">Start Game</button>';$('app').onclick=e=>{if(e.target.closest('#startBtn'))startGame()};await renderHostPlayers();playerRefreshTimer=setInterval(async()=>{if(!isHost)return;let {data:r}=await db.from('game_rooms').select('*').eq('id',room.id).single();if(!r)return;room=r;if(room.status==='playing'){clearInterval(playerRefreshTimer);playerRefreshTimer=null;await load();renderHostRound()}else if(room.status==='finished'){clearInterval(playerRefreshTimer);playerRefreshTimer=null;renderFinal()}else{renderHostPlayers()}},2000)}
-async function renderHostPlayers(){let {data:p,error}=await db.from('players').select('*').eq('room_id',room.id).order('score',{ascending:false});let el=$('players');if(!el)return;if(error){el.innerHTML='<p class="bad">Unable to load players: '+esc(error.message)+'</p>';return}el.innerHTML='<h3>Players ('+(p?.length||0)+'/15)</h3><ol class="board">'+(p||[]).map(x=>'<li>'+esc(x.name)+' — '+x.score+' point'+(x.score===1?'':'s')+'</li>').join('')+'</ol>'}
+async function renderHostPlayers(){let {data:p,error}=await db.from('players').select('*').eq('room_id',room.id).order('score',{ascending:false});let el=$('players');if(!el)return;if(error){el.innerHTML='<p class="bad">Unable to load players: '+esc(error.message)+'</p>';return}el.innerHTML='<h3>Players ('+(p?.length||0)+'/20)</h3><ol class="board">'+(p||[]).map(x=>'<li>'+esc(x.name)+' — '+x.score+' point'+(x.score===1?'':'s')+'</li>').join('')+'</ol>'}
 function startTimer(qid){if(timer)clearInterval(timer);let seconds=60;let el=$('timer');if(!el)return;el.textContent=seconds;timer=setInterval(()=>{seconds--;if(el)el.textContent=Math.max(seconds,0);if(seconds<=0){clearInterval(timer);timer=null;if(isHost)timeoutRound(qid);else{let q=questions.find(x=>x.id===qid);let f=$('feedback');if(f)f.innerHTML='<p class="bad">⏰ Time\'s up!</p><p>Correct answer: <b>'+esc(q?.word||'')+'</b></p>'}}},1000)}
 async function timeoutRound(qid){if(advanceInProgress)return;advanceInProgress=true;let {data:a}=await db.from('answers').select('player_id').eq('question_id',qid).eq('correct',true).limit(1);let q=questions.find(x=>x.id===qid);let winnerName='';if(a?.length){let {data:p}=await db.from('players').select('name').eq('id',a[0].player_id).single();winnerName=p?.name||'A player'}let box=$('winner');if(box)box.innerHTML=a?.length?'🏆 <b>'+esc(winnerName)+' got it first!</b><br><span>Answer: '+esc(q?.word||'')+'</span><br><span class="small">Round complete — click Next Question when ready.</span>':'⏰ Time\'s up! <span class="small">Correct answer is revealed. Click Next Question when ready.</span>';if(!isHost){if(a?.length)showAnswerReveal(winnerName,q?.word||'');else{let f=$('feedback');if(f)f.innerHTML='<p class="bad">⏰ Time\'s up!</p><p>Correct answer: <b>'+esc(q?.word||'')+'</b></p>'}}}
 async function renderSubmissions(){let el=$('submissions');if(!el)return;let {data:a,error}=await db.from('answers').select('player_id,answer,correct,players(name)').eq('question_id',localQuestionId);if(error){el.innerHTML='<p class="muted">Unable to load submissions.</p>';return}let rows=a||[];el.innerHTML='<h3>📝 Answers Submitted ('+rows.length+')</h3>'+(rows.length?'<ol class="board">'+rows.map(x=>'<li><b>'+esc(x.players?.name||'Player')+'</b> — '+esc(x.answer)+' '+(x.correct?'✅':'❌')+'</li>').join('')+'</ol>':'<p class="muted">No answers submitted yet.</p>')}
