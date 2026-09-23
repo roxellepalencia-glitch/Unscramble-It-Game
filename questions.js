@@ -11,7 +11,7 @@
 // IMPORTANT: Keep the format exactly as shown.
 // The host will NOT see this list during the game.
 
-const WORDS = [
+window.WORDS = [
   ['RECKLESS', 'Not caring about danger or consequences'],
   ['EXPLODING', 'To go somewhere risky or uncertain'],
   ['REVOLVE', 'To move in a circular path around a center'],
