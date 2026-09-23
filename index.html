@@ -38,7 +38,8 @@ function init(){
 }
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function code(){return Math.random().toString(36).slice(2,8).toUpperCase()}
-function shuffle(s){let a=[...s];for(let i=a.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a.join('')}\nfunction normalizeAnswer(s){return String(s||'').trim().replace(/\\s+/g,' ').toUpperCase()}
+function shuffle(s){let a=[...s];for(let i=a.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a.join('')}
+function normalizeAnswer(s){return String(s||'').trim().replace(/\s+/g,' ').toUpperCase()}
 
 function showHost(){
  $('app').classList.remove('hidden');
