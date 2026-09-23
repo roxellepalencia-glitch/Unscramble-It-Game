@@ -86,6 +86,7 @@ async function createGame(){
   let {data:r,error}=await db.from('game_rooms').insert({code:c,host_name:name}).select().single();
   if(error)throw new Error('Could not create the game: '+error.message);
   room=r;
+  isHost=true;
   let qs=window.WORDS.map((x,i)=>({room_id:r.id,position:i,word:String(x[0]),hint:String(x[1]),points:1}));
   let {error:e}=await db.from('questions').insert(qs);
   if(e)throw new Error('The game code was created, but the questions could not be loaded: '+e.message);
