@@ -59,15 +59,23 @@ function showJoin(){
 }
 async function createGame(){
  if(!init())return;
- isHost=true;
- let name=$('hostName').value.trim()||'Host',c=code();
- let {data:r,error}=await db.from('game_rooms').insert({code:c,host_name:name}).select().single();
- if(error)return alert(error.message);
- room=r;
- let qs=WORDS.map((x,i)=>({room_id:r.id,position:i,word:x[0],hint:x[1],points:1}));
- let {error:e}=await db.from('questions').insert(qs);
- if(e)return alert(e.message);
- await load();subscribe();renderHostLobby()
+ const btn=$('createBtn');
+ if(btn){btn.disabled=true;btn.textContent='Creating Game…'}
+ try{
+  const name=$('hostName').value.trim()||'Host',c=code();
+  if(!Array.isArray(WORDS)||!WORDS.length)throw new Error('No questions found. Please check questions.js.');
+  let {data:r,error}=await db.from('game_rooms').insert({code:c,host_name:name}).select().single();
+  if(error)throw new Error('Could not create the game: '+error.message);
+  room=r;
+  let qs=WORDS.map((x,i)=>({room_id:r.id,position:i,word:String(x[0]),hint:String(x[1]),points:1}));
+  let {error:e}=await db.from('questions').insert(qs);
+  if(e)throw new Error('The game code was created, but the questions could not be loaded: '+e.message);
+  await load();subscribe();renderHostLobby();
+ }catch(err){
+  console.error(err);
+  alert(err?.message||'Unable to create the game. Please refresh and try again.');
+  if(btn){btn.disabled=false;btn.textContent='Create Game'}
+ }
 }
 async function joinGame(){
  if(!init())return;
