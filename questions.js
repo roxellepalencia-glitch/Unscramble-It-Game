@@ -12,19 +12,19 @@
 // The host will NOT see this list during the game.
 
 const WORDS = [
-  ['VALIDATE', 'To confirm or verify that something is true or correct'],
-  ['TEAMWORK', 'People cooperating toward a shared goal'],
-  ['COMMUNICATION', 'Sharing information clearly'],
-  ['ESCALATION', 'Moving an issue to a higher level for help'],
-  ['FEEDBACK', 'Comments that help improve something'],
-  ['CAMPAIGN', 'A planned series of marketing activities'],
-  ['SENTIMENT', 'The feeling or attitude expressed in a comment'],
-  ['RESOLUTION', 'The solution to a problem'],
-  ['VACATION', 'Time away from work'],
-  ['CHOCOLATE', 'A sweet treat made from cocoa'],
-  ['KARAOKE', 'Singing along to recorded music'],
-  ['SUNSHINE', 'Light from the sun'],
-  ['BIRTHDAY', 'A yearly celebration of when someone was born'],
-  ['WEEKEND', 'Saturday and Sunday'],
-  ['ADVENTURE', 'An exciting or unusual experience']
+  ['RECKLESS', 'Not caring about danger or consequences'],
+  ['EXPLODING', 'To go somewhere risky or uncertain'],
+  ['REVOLVE', 'To move in a circular path around a center'],
+  ['PROVOKE', 'To deliberately cause anger or strong reaction'],
+  ['HESITANT', 'Slow to act or speak, uncertain or reluctant'],
+  ['PRESERVE', 'To keep something safe or in good condition'],
+  ['TRANSPORT', 'To carry or move someone or something from one place to another'],
+  ['DIVORCED', 'Separated legally from a spouse or partner'],
+  ['REFRESHING', 'To make someone feel new energy or strength'],
+  ['DISGUISED', 'To conceal one's true appearance or identity'],
+  ['RIDICULOUS', 'Absurd or silly and not worthy of serious attention'],
+  ['FAMILIAR', 'Known well from previous experience or contact'],
+  ['VALUABLE', 'Worth a lot of money or very important and useful'],
+  ['CONTINUE', 'To keep happening or keep doing something'],
+  ['PROCLAIM', 'To announce or declare something publicly and forcefully']
 ];
