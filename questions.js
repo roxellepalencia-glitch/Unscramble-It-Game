@@ -12,7 +12,7 @@
 // The host will NOT see this list during the game.
 
 window.WORDS = [
-  ['RECKLESS', 'Not caring about danger or consequences'],
+  ['NERVOUS', 'Feeling anxious or worries about something'],
   ['ADVENTURE', 'An exciting or unusual experience or journey'],
   ['REVOLVE', 'To move in a circular path around a center'],
   ['PROVOKE', 'To deliberately cause anger or strong reaction'],
