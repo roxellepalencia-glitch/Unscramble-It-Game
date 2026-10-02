@@ -22,11 +22,10 @@
 <div id="app" class="card hidden"></div>
 </div>
 
-
 <script>
 window.WORDS = [
   ['RECKLESS', 'Not caring about danger or consequences'],
-  ['EXPLODING', 'To go somewhere risky or uncertain'],
+  ['ADVENTURE', 'An exciting or unusual experience or journey'],
   ['REVOLVE', 'To move in a circular path around a center'],
   ['PROVOKE', 'To deliberately cause anger or strong reaction'],
   ['HESITANT', 'Slow to act or speak, uncertain or reluctant'],
@@ -34,17 +33,17 @@ window.WORDS = [
   ['TRANSPORT', 'To carry or move someone or something from one place to another'],
   ['DIVORCED', 'Separated legally from a spouse or partner'],
   ['REFRESHING', 'To make someone feel new energy or strength'],
-  ['DISGUISED', 'To conceal one\'s true appearance or identity'],
+  ['DISGUISE', "To conceal one's true appearance or identity"],
   ['RIDICULOUS', 'Absurd or silly and not worthy of serious attention'],
   ['FAMILIAR', 'Known well from previous experience or contact'],
   ['VALUABLE', 'Worth a lot of money or very important and useful'],
   ['CONTINUE', 'To keep happening or keep doing something'],
   ['PROCLAIM', 'To announce or declare something publicly and forcefully'],
-  ['ACCOUNTABILITY', 'Taking responsibility for your actions and results'],
-  ['PRIORITIZE', 'To decide what needs attention first'],
-  ['COLLABORATION', 'Working together to achieve a shared goal'],
-  ['PRODUCTIVITY', 'How effectively work and tasks are completed'],
-  ['CUSTOMER', 'A person or business that receives a product or service']
+  ['DISTANCE', 'The amount of space between two points or two objects'],
+  ['INTEREST', 'To engage the attention or curiosity of someone willingly'],
+  ['QUESTION', 'To ask someone for information or to express doubt'],
+  ['IMPROVE', 'To make or become better than before'],
+  ['CALENDAR', 'A chart showing days, weeks, and months of the year']
 ];
 </script>
 <script>
@@ -63,7 +62,7 @@ function init(){
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function code(){return Math.random().toString(36).slice(2,8).toUpperCase()}
 function shuffle(s){let a=[...s];for(let i=a.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a.join('')}
-function normalizeAnswer(s){return String(s||'').trim().replace(/\s+/g,' ').toUpperCase()}
+function normalizeAnswer(s){return String(s||'').trim().replace(/s+/g,' ').toUpperCase()}
 
 function showHost(){
  $('app').classList.remove('hidden');
@@ -98,7 +97,7 @@ async function createGame(){
   await load();subscribe();renderHostLobby();
  }catch(err){
   console.error(err);
-  alert(err?.message||'Unable to create the game. Please refresh and try again.');
+  alert(err?.message||'Unable to create the game. Please refresh the page and try again.');
   if(btn){btn.disabled=false;btn.textContent='Create Game'}
  }
 }
